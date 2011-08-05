@@ -743,7 +743,6 @@ public class Vala.MethodCall : Expression {
 				// don't set initializer earlier as this changes parent_node and parent_statement
 				local.initializer = this;
 				decl.check (context);
-				temp_access.check (context);
 
 				// move temp variable to insert block to ensure the
 				// variable is in the same block as the declaration
@@ -753,6 +752,7 @@ public class Vala.MethodCall : Expression {
 				context.analyzer.insert_block.add_local_variable (local);
 
 				old_parent_node.replace_expression (this, temp_access);
+				temp_access.check (context);
 			}
 		}
 
