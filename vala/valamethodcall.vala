@@ -215,7 +215,7 @@ public class Vala.MethodCall : Expression {
 
 		if (mtype is ObjectType || call.symbol_reference == context.analyzer.object_type) {
 			// constructor chain-up
-			var cm = context.analyzer.find_current_method () as CreationMethod;
+			var cm = context.analyzer.get_current_method (this) as CreationMethod;
 			if (cm == null) {
 				error = true;
 				Report.error (source_reference, "invocation not supported in this context");
@@ -266,7 +266,7 @@ public class Vala.MethodCall : Expression {
 			}
 
 			if (is_chainup ()) {
-				var cm = context.analyzer.find_current_method () as CreationMethod;
+				var cm = context.analyzer.get_current_method (this) as CreationMethod;
 				if (cm != null) {
 					if (cm.chain_up) {
 						error = true;
@@ -289,7 +289,7 @@ public class Vala.MethodCall : Expression {
 		} else if (call is MemberAccess
 		           && call.symbol_reference is CreationMethod) {
 			// constructor chain-up
-			var cm = context.analyzer.find_current_method () as CreationMethod;
+			var cm = context.analyzer.get_current_method (this) as CreationMethod;
 			if (cm == null) {
 				error = true;
 				Report.error (source_reference, "use `new' operator to create new objects");
@@ -584,11 +584,12 @@ public class Vala.MethodCall : Expression {
 					error = true;
 					Report.error (source_reference, "yield expression requires async method");
 				}
-				if (context.analyzer.current_method == null || !context.analyzer.current_method.coroutine) {
+				var current_method = context.analyzer.get_current_method (this);
+				if (current_method == null || !current_method.coroutine) {
 					error = true;
 					Report.error (source_reference, "yield expression not available outside async method");
 				}
-				context.analyzer.current_method.yield_count++;
+				current_method.yield_count++;
 			}
 			if (m != null && m.coroutine && !is_yield_expression && ((MemberAccess) call).member_name != "end") {
 				// .begin call of async method, no error can happen here
@@ -723,7 +724,7 @@ public class Vala.MethodCall : Expression {
 		if (may_throw) {
 			if (parent_node is LocalVariable || parent_node is ExpressionStatement) {
 				// simple statements, no side effects after method call
-			} else if (!(context.analyzer.current_symbol is Block)) {
+			} else if (!(context.analyzer.get_current_symbol (this) is Block)) {
 				// can't handle errors in field initializers
 				Report.error (source_reference, "Field initializers must not throw errors");
 			} else {
@@ -735,7 +736,7 @@ public class Vala.MethodCall : Expression {
 				local.floating = true;
 				var decl = new DeclarationStatement (local, source_reference);
 
-				insert_statement (context.analyzer.insert_block, decl);
+				insert_statement (context.analyzer.get_insert_block (this), decl);
 
 				Expression temp_access = new MemberAccess.simple (local.name, source_reference);
 				temp_access.target_type = target_type;
@@ -744,12 +745,12 @@ public class Vala.MethodCall : Expression {
 				local.initializer = this;
 				decl.check (context);
 
-				// move temp variable to insert block to ensure the
-				// variable is in the same block as the declaration
-				// otherwise there will be scoping issues in the generated code
-				var block = (Block) context.analyzer.current_symbol;
+				// move temp variable to insert block to ensure
+				// variable is in the same block as the declarat
+				// otherwise there will be scoping issues in the
+				var block = context.analyzer.get_current_block (this);
 				block.remove_local_variable (local);
-				context.analyzer.insert_block.add_local_variable (local);
+				context.analyzer.get_insert_block (this).add_local_variable (local);
 
 				old_parent_node.replace_expression (this, temp_access);
 				temp_access.check (context);
