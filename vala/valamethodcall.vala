@@ -596,8 +596,6 @@ public class Vala.MethodCall : Expression {
 		formal_value_type = ret_type;
 		value_type = formal_value_type.get_actual_type (target_object_type, call as MemberAccess, this);
 
-		bool may_throw = false;
-
 		if (mtype is MethodType) {
 			var m = ((MethodType) mtype).method_symbol;
 			if (is_yield_expression) {
@@ -612,7 +610,6 @@ public class Vala.MethodCall : Expression {
 				}
 				current_method.yield_count++;
 			}
-
 			if (m.returns_floating_reference) {
 				value_type.floating_reference = true;
 			}
@@ -704,42 +701,6 @@ public class Vala.MethodCall : Expression {
 		if (!context.analyzer.check_arguments (this, mtype, params, get_argument_list ())) {
 			error = true;
 			return false;
-		}
-
-		if (tree_can_fail) {
-			if (parent_node is LocalVariable || parent_node is ExpressionStatement) {
-				// simple statements, no side effects after method call
-			} else if (!(context.analyzer.get_current_symbol (this) is Block)) {
-				// can't handle errors in field initializers
-				Report.error (source_reference, "Field initializers must not throw errors");
-			} else {
-				// store parent_node as we need to replace the expression in the old parent node later on
-				var old_parent_node = parent_node;
-
-				var local = new LocalVariable (value_type, get_temp_name (), null, source_reference);
-				// use floating variable to avoid unnecessary (and sometimes impossible) copies
-				local.floating = true;
-				var decl = new DeclarationStatement (local, source_reference);
-
-				insert_statement (context.analyzer.get_insert_block (this), decl);
-
-				Expression temp_access = new MemberAccess.simple (local.name, source_reference);
-				temp_access.target_type = target_type;
-
-				// don't set initializer earlier as this changes parent_node and parent_statement
-				local.initializer = this;
-				decl.check (context);
-
-				// move temp variable to insert block to ensure
-				// variable is in the same block as the declarat
-				// otherwise there will be scoping issues in the
-				var block = context.analyzer.get_current_block (this);
-				block.remove_local_variable (local);
-				context.analyzer.get_insert_block (this).add_local_variable (local);
-
-				old_parent_node.replace_expression (this, temp_access);
-				temp_access.check (context);
-			}
 		}
 
 		return !error;
