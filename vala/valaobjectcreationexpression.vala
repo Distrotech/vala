@@ -415,7 +415,7 @@ public class Vala.ObjectCreationExpression : Expression {
 				local.floating = true;
 				var decl = new DeclarationStatement (local, source_reference);
 
-				insert_statement (context.analyzer.get_insert_block (this), decl);
+				insert_statement (context.analyzer.get_current_block (this), decl);
 
 				Expression temp_access = new MemberAccess.simple (local.name, source_reference);
 				temp_access.target_type = target_type;
@@ -429,7 +429,7 @@ public class Vala.ObjectCreationExpression : Expression {
 				// otherwise there will be scoping issues in the
 				var block = context.analyzer.get_current_block (this);
 				block.remove_local_variable (local);
-				context.analyzer.get_insert_block (this).add_local_variable (local);
+				context.analyzer.get_current_block (this).add_local_variable (local);
 
 				old_parent_node.replace_expression (this, temp_access);
 				temp_access.check (context);
