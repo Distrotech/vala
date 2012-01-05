@@ -381,10 +381,8 @@ public class Vala.CCodeTransformer : CodeTransformer {
 			if (expr.parent_node is LocalVariable || expr.parent_node is ExpressionStatement) {
 				// simple statements, no side effects after method call
 			} else if (!(context.analyzer.get_current_symbol (expr) is Block)) {
-				if (context.profile != Profile.DOVA) {
-					// can't handle errors in field initializers
-					Report.error (expr.source_reference, "Field initializers must not throw errors");
-				}
+				// can't handle errors in field initializers
+				Report.error (expr.source_reference, "Field initializers must not throw errors");
 			} else {
 				// store parent_node as we need to replace the expression in the old parent node later on
 				var old_parent_node = expr.parent_node;
@@ -489,6 +487,32 @@ public class Vala.CCodeTransformer : CodeTransformer {
 		} else {
 			pop_builder ();
 			base.visit_binary_expression (expr);
+		}
+	}
+
+	public override void visit_object_creation_expression (ObjectCreationExpression expr) {
+		if (expr.tree_can_fail) {
+			if (expr.parent_node is LocalVariable || expr.parent_node is ExpressionStatement) {
+				// simple statements, no side effects after method call
+			} else if (!(context.analyzer.get_current_symbol (expr) is Block)) {
+				if (context.profile != Profile.DOVA) {
+					// can't handle errors in field initializers
+					Report.error (expr.source_reference, "Field initializers must not throw errors");
+				}
+			} else {
+				var old_parent_node = expr.parent_node;
+				var target_type = expr.target_type != null ? expr.target_type.copy () : null;
+				push_builder (new CodeBuilder (context, expr.parent_statement, expr.source_reference));
+
+				var replacement = expression (b.add_temp_declaration (expr.value_type, expr));
+
+				replacement.target_type = target_type;
+				context.analyzer.replaced_nodes.add (expr);
+				old_parent_node.replace_expression (expr, replacement);
+				b.check (this);
+				pop_builder ();
+				check (replacement);
+			}
 		}
 	}
 }
