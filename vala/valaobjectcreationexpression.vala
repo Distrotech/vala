@@ -337,11 +337,12 @@ public class Vala.ObjectCreationExpression : Expression {
 					error = true;
 					Report.error (source_reference, "yield expression requires async method");
 				}
-				if (context.analyzer.current_method == null || !context.analyzer.current_method.coroutine) {
+				var current_method = context.analyzer.get_current_method (this);
+				if (current_method == null || !current_method.coroutine) {
 					error = true;
 					Report.error (source_reference, "yield expression not available outside async method");
 				}
-				context.analyzer.current_method.yield_count++;
+				current_method.yield_count++;
 			}
 
 			var args = get_argument_list ();
