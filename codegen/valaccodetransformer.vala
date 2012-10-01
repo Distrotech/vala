@@ -508,10 +508,8 @@ public class Vala.CCodeTransformer : CodeTransformer {
 			if (expr.parent_node is LocalVariable || expr.parent_node is ExpressionStatement) {
 				// simple statements, no side effects after method call
 			} else if (!(context.analyzer.get_current_symbol (expr) is Block)) {
-				if (context.profile != Profile.DOVA) {
-					// can't handle errors in field initializers
-					Report.error (expr.source_reference, "Field initializers must not throw errors");
-				}
+				// can't handle errors in field initializers
+				Report.error (expr.source_reference, "Field initializers must not throw errors");
 			} else {
 				var old_parent_node = expr.parent_node;
 				var target_type = expr.target_type != null ? expr.target_type.copy () : null;
