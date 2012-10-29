@@ -132,7 +132,15 @@ public class Vala.Property : Symbol, Lockable {
 	/**
 	 * Specifies the default value of this property.
 	 */
-	public Expression initializer { get; set; }
+	public Expression initializer {
+		get {
+			return _initializer;
+		}
+		set {
+			_initializer = value;
+			_initializer.parent_node = this;
+		}
+	}
 
 	private bool lock_used = false;
 
@@ -143,6 +151,7 @@ public class Vala.Property : Symbol, Lockable {
 	private bool base_properties_valid;
 	PropertyAccessor? _get_accessor;
 	PropertyAccessor? _set_accessor;
+	Expression _initializer;
 
 	/**
 	 * Creates a new property.
