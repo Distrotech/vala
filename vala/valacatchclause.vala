@@ -118,7 +118,7 @@ public class Vala.CatchClause : CodeNode {
 
 		if (error_type != null) {
 			if (variable_name != null) {
-				error_variable = new LocalVariable (error_type.copy (), variable_name);
+				error_variable = new LocalVariable (error_type.copy (), variable_name, null, source_reference);
 
 				body.add_local_variable (error_variable);
 
