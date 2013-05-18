@@ -373,10 +373,10 @@ public class Vala.CCodeTransformer : CodeTransformer {
 				var target_type = expr.target_type != null ? expr.target_type.copy () : null;
 				push_builder (new CodeBuilder (context, expr.parent_statement, expr.source_reference));
 
-				var replacement = expression (b.add_temp_declaration (expr.value_type, expr, true));
+				var replacement = expression (b.add_temp_declaration (expr.value_type.copy (), expr, true));
 
-				replacement.target_type = target_type;
-				replacement.formal_target_type = formal_target_type;
+				replacement.target_type = target_type.copy ();
+				replacement.formal_target_type = formal_target_type.copy ();
 				context.analyzer.replaced_nodes.add (expr);
 				old_parent_node.replace_expression (expr, replacement);
 				b.check (this);
