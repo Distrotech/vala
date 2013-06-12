@@ -2230,8 +2230,10 @@ void vala_block_insert_before (ValaBlock* self, ValaStatement* stmt, ValaStateme
 				ValaList* _tmp7_;
 				gint _tmp8_;
 				gpointer _tmp9_ = NULL;
+				ValaStatement* _tmp10_;
+				ValaStatementList* _tmp11_;
 				ValaStatementList* stmt_list;
-				ValaStatementList* _tmp10_;
+				ValaStatementList* _tmp12_;
 				_tmp1_ = _tmp0_;
 				if (!_tmp1_) {
 					gint _tmp2_;
@@ -2249,107 +2251,112 @@ void vala_block_insert_before (ValaBlock* self, ValaStatement* stmt, ValaStateme
 				_tmp7_ = self->priv->statement_list;
 				_tmp8_ = i;
 				_tmp9_ = vala_list_get (_tmp7_, _tmp8_);
-				stmt_list = G_TYPE_CHECK_INSTANCE_TYPE ((ValaStatement*) _tmp9_, VALA_TYPE_STATEMENT_LIST) ? ((ValaStatementList*) ((ValaStatement*) _tmp9_)) : NULL;
-				_tmp10_ = stmt_list;
-				if (_tmp10_ != NULL) {
+				_tmp10_ = (ValaStatement*) _tmp9_;
+				_tmp11_ = G_TYPE_CHECK_INSTANCE_TYPE (_tmp10_, VALA_TYPE_STATEMENT_LIST) ? ((ValaStatementList*) _tmp10_) : NULL;
+				if (_tmp11_ == NULL) {
+					_vala_code_node_unref0 (_tmp10_);
+				}
+				stmt_list = _tmp11_;
+				_tmp12_ = stmt_list;
+				if (_tmp12_ != NULL) {
 					{
 						gint j;
 						j = 0;
 						{
-							gboolean _tmp11_;
-							_tmp11_ = TRUE;
+							gboolean _tmp13_;
+							_tmp13_ = TRUE;
 							while (TRUE) {
-								gboolean _tmp12_;
-								gint _tmp14_;
-								ValaStatementList* _tmp15_;
+								gboolean _tmp14_;
 								gint _tmp16_;
-								gint _tmp17_;
-								ValaStatementList* _tmp18_;
+								ValaStatementList* _tmp17_;
+								gint _tmp18_;
 								gint _tmp19_;
-								ValaStatement* _tmp20_ = NULL;
-								ValaStatement* _tmp21_;
-								ValaStatement* _tmp22_;
-								gboolean _tmp23_;
-								_tmp12_ = _tmp11_;
-								if (!_tmp12_) {
-									gint _tmp13_;
-									_tmp13_ = j;
-									j = _tmp13_ + 1;
+								ValaStatementList* _tmp20_;
+								gint _tmp21_;
+								ValaStatement* _tmp22_ = NULL;
+								ValaStatement* _tmp23_;
+								ValaStatement* _tmp24_;
+								gboolean _tmp25_;
+								_tmp14_ = _tmp13_;
+								if (!_tmp14_) {
+									gint _tmp15_;
+									_tmp15_ = j;
+									j = _tmp15_ + 1;
 								}
-								_tmp11_ = FALSE;
-								_tmp14_ = j;
-								_tmp15_ = stmt_list;
-								_tmp16_ = vala_statement_list_get_length (_tmp15_);
-								_tmp17_ = _tmp16_;
-								if (!(_tmp14_ < _tmp17_)) {
+								_tmp13_ = FALSE;
+								_tmp16_ = j;
+								_tmp17_ = stmt_list;
+								_tmp18_ = vala_statement_list_get_length (_tmp17_);
+								_tmp19_ = _tmp18_;
+								if (!(_tmp16_ < _tmp19_)) {
 									break;
 								}
-								_tmp18_ = stmt_list;
-								_tmp19_ = j;
-								_tmp20_ = vala_statement_list_get (_tmp18_, _tmp19_);
-								_tmp21_ = _tmp20_;
-								_tmp22_ = stmt;
-								_tmp23_ = _tmp21_ == _tmp22_;
-								_vala_code_node_unref0 (_tmp21_);
-								if (_tmp23_) {
-									ValaStatementList* _tmp24_;
-									gint _tmp25_;
-									ValaStatement* _tmp26_;
-									ValaStatement* _tmp27_;
-									_tmp24_ = stmt_list;
-									_tmp25_ = j;
-									_tmp26_ = new_stmt;
-									vala_statement_list_insert (_tmp24_, _tmp25_, _tmp26_);
-									_tmp27_ = new_stmt;
-									vala_code_node_set_parent_node ((ValaCodeNode*) _tmp27_, (ValaCodeNode*) self);
+								_tmp20_ = stmt_list;
+								_tmp21_ = j;
+								_tmp22_ = vala_statement_list_get (_tmp20_, _tmp21_);
+								_tmp23_ = _tmp22_;
+								_tmp24_ = stmt;
+								_tmp25_ = _tmp23_ == _tmp24_;
+								_vala_code_node_unref0 (_tmp23_);
+								if (_tmp25_) {
+									ValaStatementList* _tmp26_;
+									gint _tmp27_;
+									ValaStatement* _tmp28_;
+									ValaStatement* _tmp29_;
+									_tmp26_ = stmt_list;
+									_tmp27_ = j;
+									_tmp28_ = new_stmt;
+									vala_statement_list_insert (_tmp26_, _tmp27_, _tmp28_);
+									_tmp29_ = new_stmt;
+									vala_code_node_set_parent_node ((ValaCodeNode*) _tmp29_, (ValaCodeNode*) self);
 									break;
 								}
 							}
 						}
 					}
 				} else {
-					ValaList* _tmp28_;
-					gint _tmp29_;
-					gpointer _tmp30_ = NULL;
-					ValaStatement* _tmp31_;
-					ValaStatement* _tmp32_;
-					gboolean _tmp33_;
-					_tmp28_ = self->priv->statement_list;
-					_tmp29_ = i;
-					_tmp30_ = vala_list_get (_tmp28_, _tmp29_);
-					_tmp31_ = (ValaStatement*) _tmp30_;
-					_tmp32_ = stmt;
-					_tmp33_ = _tmp31_ == _tmp32_;
-					_vala_code_node_unref0 (_tmp31_);
-					if (_tmp33_) {
-						ValaSourceReference* _tmp34_;
-						ValaSourceReference* _tmp35_;
-						ValaStatementList* _tmp36_;
-						ValaStatementList* _tmp37_;
-						ValaStatement* _tmp38_;
+					ValaList* _tmp30_;
+					gint _tmp31_;
+					gpointer _tmp32_ = NULL;
+					ValaStatement* _tmp33_;
+					ValaStatement* _tmp34_;
+					gboolean _tmp35_;
+					_tmp30_ = self->priv->statement_list;
+					_tmp31_ = i;
+					_tmp32_ = vala_list_get (_tmp30_, _tmp31_);
+					_tmp33_ = (ValaStatement*) _tmp32_;
+					_tmp34_ = stmt;
+					_tmp35_ = _tmp33_ == _tmp34_;
+					_vala_code_node_unref0 (_tmp33_);
+					if (_tmp35_) {
+						ValaSourceReference* _tmp36_;
+						ValaSourceReference* _tmp37_;
+						ValaStatementList* _tmp38_;
 						ValaStatementList* _tmp39_;
 						ValaStatement* _tmp40_;
-						ValaList* _tmp41_;
-						gint _tmp42_;
-						ValaStatementList* _tmp43_;
-						ValaStatement* _tmp44_;
-						_tmp34_ = vala_code_node_get_source_reference ((ValaCodeNode*) self);
-						_tmp35_ = _tmp34_;
-						_tmp36_ = vala_statement_list_new (_tmp35_);
+						ValaStatementList* _tmp41_;
+						ValaStatement* _tmp42_;
+						ValaList* _tmp43_;
+						gint _tmp44_;
+						ValaStatementList* _tmp45_;
+						ValaStatement* _tmp46_;
+						_tmp36_ = vala_code_node_get_source_reference ((ValaCodeNode*) self);
+						_tmp37_ = _tmp36_;
+						_tmp38_ = vala_statement_list_new (_tmp37_);
 						_vala_code_node_unref0 (stmt_list);
-						stmt_list = _tmp36_;
-						_tmp37_ = stmt_list;
-						_tmp38_ = new_stmt;
-						vala_statement_list_add (_tmp37_, _tmp38_);
+						stmt_list = _tmp38_;
 						_tmp39_ = stmt_list;
-						_tmp40_ = stmt;
+						_tmp40_ = new_stmt;
 						vala_statement_list_add (_tmp39_, _tmp40_);
-						_tmp41_ = self->priv->statement_list;
-						_tmp42_ = i;
-						_tmp43_ = stmt_list;
-						vala_list_set (_tmp41_, _tmp42_, (ValaStatement*) _tmp43_);
-						_tmp44_ = new_stmt;
-						vala_code_node_set_parent_node ((ValaCodeNode*) _tmp44_, (ValaCodeNode*) self);
+						_tmp41_ = stmt_list;
+						_tmp42_ = stmt;
+						vala_statement_list_add (_tmp41_, _tmp42_);
+						_tmp43_ = self->priv->statement_list;
+						_tmp44_ = i;
+						_tmp45_ = stmt_list;
+						vala_list_set (_tmp43_, _tmp44_, (ValaStatement*) _tmp45_);
+						_tmp46_ = new_stmt;
+						vala_code_node_set_parent_node ((ValaCodeNode*) _tmp46_, (ValaCodeNode*) self);
 					}
 				}
 				_vala_code_node_unref0 (stmt_list);
@@ -2378,8 +2385,10 @@ void vala_block_replace_statement (ValaBlock* self, ValaStatement* old_stmt, Val
 				ValaList* _tmp7_;
 				gint _tmp8_;
 				gpointer _tmp9_ = NULL;
+				ValaStatement* _tmp10_;
+				ValaStatementList* _tmp11_;
 				ValaStatementList* stmt_list;
-				ValaStatementList* _tmp10_;
+				ValaStatementList* _tmp12_;
 				_tmp1_ = _tmp0_;
 				if (!_tmp1_) {
 					gint _tmp2_;
@@ -2397,89 +2406,94 @@ void vala_block_replace_statement (ValaBlock* self, ValaStatement* old_stmt, Val
 				_tmp7_ = self->priv->statement_list;
 				_tmp8_ = i;
 				_tmp9_ = vala_list_get (_tmp7_, _tmp8_);
-				stmt_list = G_TYPE_CHECK_INSTANCE_TYPE ((ValaStatement*) _tmp9_, VALA_TYPE_STATEMENT_LIST) ? ((ValaStatementList*) ((ValaStatement*) _tmp9_)) : NULL;
-				_tmp10_ = stmt_list;
-				if (_tmp10_ != NULL) {
+				_tmp10_ = (ValaStatement*) _tmp9_;
+				_tmp11_ = G_TYPE_CHECK_INSTANCE_TYPE (_tmp10_, VALA_TYPE_STATEMENT_LIST) ? ((ValaStatementList*) _tmp10_) : NULL;
+				if (_tmp11_ == NULL) {
+					_vala_code_node_unref0 (_tmp10_);
+				}
+				stmt_list = _tmp11_;
+				_tmp12_ = stmt_list;
+				if (_tmp12_ != NULL) {
 					{
 						gint j;
 						j = 0;
 						{
-							gboolean _tmp11_;
-							_tmp11_ = TRUE;
+							gboolean _tmp13_;
+							_tmp13_ = TRUE;
 							while (TRUE) {
-								gboolean _tmp12_;
-								gint _tmp14_;
-								ValaStatementList* _tmp15_;
+								gboolean _tmp14_;
 								gint _tmp16_;
-								gint _tmp17_;
-								ValaStatementList* _tmp18_;
+								ValaStatementList* _tmp17_;
+								gint _tmp18_;
 								gint _tmp19_;
-								ValaStatement* _tmp20_ = NULL;
-								ValaStatement* _tmp21_;
-								ValaStatement* _tmp22_;
-								gboolean _tmp23_;
-								_tmp12_ = _tmp11_;
-								if (!_tmp12_) {
-									gint _tmp13_;
-									_tmp13_ = j;
-									j = _tmp13_ + 1;
+								ValaStatementList* _tmp20_;
+								gint _tmp21_;
+								ValaStatement* _tmp22_ = NULL;
+								ValaStatement* _tmp23_;
+								ValaStatement* _tmp24_;
+								gboolean _tmp25_;
+								_tmp14_ = _tmp13_;
+								if (!_tmp14_) {
+									gint _tmp15_;
+									_tmp15_ = j;
+									j = _tmp15_ + 1;
 								}
-								_tmp11_ = FALSE;
-								_tmp14_ = j;
-								_tmp15_ = stmt_list;
-								_tmp16_ = vala_statement_list_get_length (_tmp15_);
-								_tmp17_ = _tmp16_;
-								if (!(_tmp14_ < _tmp17_)) {
+								_tmp13_ = FALSE;
+								_tmp16_ = j;
+								_tmp17_ = stmt_list;
+								_tmp18_ = vala_statement_list_get_length (_tmp17_);
+								_tmp19_ = _tmp18_;
+								if (!(_tmp16_ < _tmp19_)) {
 									break;
 								}
-								_tmp18_ = stmt_list;
-								_tmp19_ = j;
-								_tmp20_ = vala_statement_list_get (_tmp18_, _tmp19_);
-								_tmp21_ = _tmp20_;
-								_tmp22_ = old_stmt;
-								_tmp23_ = _tmp21_ == _tmp22_;
-								_vala_code_node_unref0 (_tmp21_);
-								if (_tmp23_) {
-									ValaStatementList* _tmp24_;
-									gint _tmp25_;
-									ValaStatement* _tmp26_;
-									ValaStatement* _tmp27_;
-									_tmp24_ = stmt_list;
-									_tmp25_ = j;
-									_tmp26_ = new_stmt;
-									vala_statement_list_set (_tmp24_, _tmp25_, _tmp26_);
-									_tmp27_ = new_stmt;
-									vala_code_node_set_parent_node ((ValaCodeNode*) _tmp27_, (ValaCodeNode*) self);
+								_tmp20_ = stmt_list;
+								_tmp21_ = j;
+								_tmp22_ = vala_statement_list_get (_tmp20_, _tmp21_);
+								_tmp23_ = _tmp22_;
+								_tmp24_ = old_stmt;
+								_tmp25_ = _tmp23_ == _tmp24_;
+								_vala_code_node_unref0 (_tmp23_);
+								if (_tmp25_) {
+									ValaStatementList* _tmp26_;
+									gint _tmp27_;
+									ValaStatement* _tmp28_;
+									ValaStatement* _tmp29_;
+									_tmp26_ = stmt_list;
+									_tmp27_ = j;
+									_tmp28_ = new_stmt;
+									vala_statement_list_set (_tmp26_, _tmp27_, _tmp28_);
+									_tmp29_ = new_stmt;
+									vala_code_node_set_parent_node ((ValaCodeNode*) _tmp29_, (ValaCodeNode*) self);
 									break;
 								}
 							}
 						}
 					}
 				} else {
-					ValaList* _tmp28_;
-					gint _tmp29_;
-					gpointer _tmp30_ = NULL;
-					ValaStatement* _tmp31_;
-					ValaStatement* _tmp32_;
-					gboolean _tmp33_;
-					_tmp28_ = self->priv->statement_list;
-					_tmp29_ = i;
-					_tmp30_ = vala_list_get (_tmp28_, _tmp29_);
-					_tmp31_ = (ValaStatement*) _tmp30_;
-					_tmp32_ = old_stmt;
-					_tmp33_ = _tmp31_ == _tmp32_;
-					_vala_code_node_unref0 (_tmp31_);
-					if (_tmp33_) {
-						ValaList* _tmp34_;
-						gint _tmp35_;
-						ValaStatement* _tmp36_;
-						ValaStatement* _tmp37_;
-						_tmp34_ = self->priv->statement_list;
-						_tmp35_ = i;
-						_tmp36_ = new_stmt;
-						vala_list_set (_tmp34_, _tmp35_, _tmp36_);
-						_tmp37_ = new_stmt;
-						vala_code_node_set_parent_node ((ValaCodeNode*) _tmp37_, (ValaCodeNode*) self);
+					ValaList* _tmp30_;
+					gint _tmp31_;
+					gpointer _tmp32_ = NULL;
+					ValaStatement* _tmp33_;
+					ValaStatement* _tmp34_;
+					gboolean _tmp35_;
+					_tmp30_ = self->priv->statement_list;
+					_tmp31_ = i;
+					_tmp32_ = vala_list_get (_tmp30_, _tmp31_);
+					_tmp33_ = (ValaStatement*) _tmp32_;
+					_tmp34_ = old_stmt;
+					_tmp35_ = _tmp33_ == _tmp34_;
+					_vala_code_node_unref0 (_tmp33_);
+					if (_tmp35_) {
+						ValaList* _tmp36_;
+						gint _tmp37_;
+						ValaStatement* _tmp38_;
+						ValaStatement* _tmp39_;
+						_tmp36_ = self->priv->statement_list;
+						_tmp37_ = i;
+						_tmp38_ = new_stmt;
+						vala_list_set (_tmp36_, _tmp37_, _tmp38_);
+						_tmp39_ = new_stmt;
+						vala_code_node_set_parent_node ((ValaCodeNode*) _tmp39_, (ValaCodeNode*) self);
 						_vala_code_node_unref0 (stmt_list);
 						break;
 					}
